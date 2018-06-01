@@ -115,7 +115,7 @@ public class MonitorApp {
 
 			}
 		} catch (IOException e) {
-<<<<<<< HEAD
+
 			logger.error("IOException: " + e.getMessage());
 
 		} catch (JSONException e) {
@@ -123,12 +123,7 @@ public class MonitorApp {
 
 		} catch (InterruptedException e) {
 			logger.error("InterruptedException: " + e.getMessage());
-
-=======
 			logger.error("IOException: " + e.getMessage() + e.getStackTrace());
-		}catch (JSONException e) {
-			logger.error("JSONException: " + e.getMessage() + e.getStackTrace());
->>>>>>> master
 		}finally {
 			if (in != null) {
 				try {
