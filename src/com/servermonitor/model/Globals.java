@@ -5,11 +5,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.servermonitor.*;
 
 public class Globals {
 	public static Map<Date, ServerStatus> statuses = 
@@ -17,6 +15,11 @@ public class Globals {
 	public static boolean monitorIsRunning = false;
 	
 	
+	
+	/**
+	 * 
+	 * @return Map<Date,ServerStatus>, a sorted by date version of statuses
+	 */
 	public static Map<Date, ServerStatus> sortStatuses(){
 		Map<Date, ServerStatus> sortedStatuses = new TreeMap<Date, ServerStatus>();
 		

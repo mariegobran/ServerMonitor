@@ -1,9 +1,6 @@
 
 package com.servermonitor.rest;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author MGobran May 31, 2018
@@ -18,7 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.servermonitor.core.MonitorApp;
 import com.servermonitor.model.Globals;
-import com.servermonitor.model.ServerStatus;
 
 @Path ("PaysafeServerMonitor")
 public class MonitorRest {
