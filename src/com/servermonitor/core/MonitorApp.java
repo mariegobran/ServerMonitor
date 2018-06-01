@@ -29,10 +29,8 @@ public class MonitorApp {
 
 		BufferedReader in = null;
 		try {
-			
-			
+
 			startMonitor(1000,"https://api.test.paysafe.com/accountmanagement/monitor");
-			
 
 		} catch (IOException e) {
 			logger.error("IOException: "+e.getMessage());
@@ -51,7 +49,7 @@ public class MonitorApp {
 		}
 
 		// List Entries after the monitor stops
-		Iterator<Map.Entry<Date, ServerStatus>> entries = Globals.statuses.entrySet().iterator();
+		Iterator<Map.Entry<Date, ServerStatus>> entries = Globals.sortStatuses().entrySet().iterator();
 
 		while (entries.hasNext()) {
 			Map.Entry<Date, ServerStatus> entry = entries.next();
@@ -81,7 +79,7 @@ public class MonitorApp {
 		BufferedReader in = null;
 
 		try {
-			
+
 			Globals.monitorIsRunning = true;
 			int running =0;
 			while(Globals.monitorIsRunning) {
@@ -102,21 +100,29 @@ public class MonitorApp {
 					response.append(inputLine);
 				}
 				in.close();
+
 				//Read JSON response 
 				JSONObject JsonResponse = new JSONObject(response.toString());
-
 				// adding a new status
-				Globals.statuses.put(new Date(),new ServerStatus(JsonResponse.getString("status")));
-				
-				if(running >30) {
+				Globals.statuses.put(new Date(), new ServerStatus(JsonResponse.getString("status")));
+
+				if(running >10) { //limiting the Server Status entries to 10 (for each call of the startMonitor method)
 					Globals.monitorIsRunning = false;
 				}else {
+					Thread.sleep(interval);
 					running++;
 				}
 
 			}
 		} catch (IOException e) {
-			logger.error("IOException: " + e.getMessage() + e.getStackTrace());
+			logger.error("IOException: " + e.getMessage());
+
+		} catch (JSONException e) {
+			logger.error("JSONException: " + e.getMessage());
+
+		} catch (InterruptedException e) {
+			logger.error("InterruptedException: " + e.getMessage());
+
 		}finally {
 
 			if (in != null) {
@@ -128,5 +134,9 @@ public class MonitorApp {
 			}
 		}
 
-	}}
+	}
+	
+	
+	
+}
 
