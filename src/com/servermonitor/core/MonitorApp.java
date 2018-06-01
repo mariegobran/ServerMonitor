@@ -117,8 +117,9 @@ public class MonitorApp {
 			}
 		} catch (IOException e) {
 			logger.error("IOException: " + e.getMessage() + e.getStackTrace());
+		}catch (JSONException e) {
+			logger.error("JSONException: " + e.getMessage() + e.getStackTrace());
 		}finally {
-
 			if (in != null) {
 				try {
 					in.close();
