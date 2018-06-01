@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import com.servermonitor.core.MonitorApp;
 import com.servermonitor.model.ServerStatus;
-import com.servermonitor.model.constants;
+import com.servermonitor.model.Globals;
 
 public class MonitorNewEntryTask extends TimerTask {
 
@@ -33,7 +33,7 @@ public class MonitorNewEntryTask extends TimerTask {
 				this.cancel();
 			}
 			//Called each time when 1000 milliseconds (1 second) (the period parameter)
-			HttpURLConnection con = MonitorApp.connectToAPI("https://api.test.paysafe.com/accountmanagement/monitor");
+			HttpURLConnection con = MonitorApp.connectToAPI("https://api.test.paysafe.com/accountmanagement/monitor", null);
 			// optional default is GET
 			con.setRequestMethod("GET");
 			//add request header
@@ -54,8 +54,9 @@ public class MonitorNewEntryTask extends TimerTask {
 			JSONObject JsonResponse = new JSONObject(response.toString());
 
 			// adding a new status
-			constants.statuses.put(new Date(),new ServerStatus(JsonResponse.getString("status")));
+			Globals.statuses.put(new Date(),new ServerStatus(JsonResponse.getString("status")));
 			currentStatusNumber++;
+			
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
