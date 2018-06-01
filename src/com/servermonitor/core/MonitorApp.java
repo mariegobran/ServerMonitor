@@ -29,17 +29,10 @@ public class MonitorApp {
 
 		BufferedReader in = null;
 		try {
-			int running =0;
-			startMonitor(1000,"");
-			if(running >30) {
-				Globals.monitorIsRunning = false;
-			}else {
-				running++;
-			}
-
-
-
-
+			
+			
+			startMonitor(1000,"https://api.test.paysafe.com/accountmanagement/monitor");
+			
 
 		} catch (IOException e) {
 			logger.error("IOException: "+e.getMessage());
@@ -57,7 +50,7 @@ public class MonitorApp {
 			}
 		}
 
-		// List Entries
+		// List Entries after the monitor stops
 		Iterator<Map.Entry<Date, ServerStatus>> entries = Globals.statuses.entrySet().iterator();
 
 		while (entries.hasNext()) {
@@ -88,8 +81,9 @@ public class MonitorApp {
 		BufferedReader in = null;
 
 		try {
+			
 			Globals.monitorIsRunning = true;
-
+			int running =0;
 			while(Globals.monitorIsRunning) {
 				HttpURLConnection con = MonitorApp.connectToAPI(url, logger);
 				// optional default is GET
@@ -113,9 +107,16 @@ public class MonitorApp {
 
 				// adding a new status
 				Globals.statuses.put(new Date(),new ServerStatus(JsonResponse.getString("status")));
+				
+				if(running >30) {
+					Globals.monitorIsRunning = false;
+				}else {
+					running++;
+				}
+
 			}
 		} catch (IOException e) {
-			logger.error("IOException: " + e.getMessage());
+			logger.error("IOException: " + e.getMessage() + e.getStackTrace());
 		}finally {
 
 			if (in != null) {
